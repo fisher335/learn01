@@ -69,3 +69,22 @@ func (email *Email)SendEmail() error {
 
     return nil
 }
+
+
+//测试方法，可放倒main中
+
+
+func SendTest() {
+	mycontent := " 你好："+"\r\n"+
+	"      这是一封测试邮件"
+
+	email := NewEmail("fengshaomin@bjsasc.com",
+		"test golang email", mycontent)
+
+	println(email.to)
+
+	if err := email.SendEmail(); err != nil {
+
+		println(err)
+	}
+}

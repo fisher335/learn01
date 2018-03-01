@@ -71,7 +71,7 @@ func (email *Email)SendEmail() error {
 }
 
 
-//测试方法，可放倒main中
+//
 
 
 func SendTest() {

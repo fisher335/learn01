@@ -54,7 +54,7 @@ func GetToken() string {
 	pass := "1"
 	url := "http://disk.bjsasc.com:8180/NetDisk/rest/mobile"
 	//url := "http://127.0.0.1:8080/list"
-	paras := &grequests.RequestOptions{Params: map[string]string{"userName": username, "passWord": GetPass(pass), "method": "login"}}
+	paras := &grequests.RequestOptions{Params: map[string]string{"userName": username, "passWord": EncryptPass(pass), "method": "login"}}
 	res, err := grequests.Get(url, paras)
 	if err!=nil{
 		fmt.Println(err)
@@ -68,7 +68,7 @@ func GetToken() string {
 	return token.Token
 }
 
-func GetPass(orig string) string {
+func EncryptPass(orig string) string {
 	s, _ := TripleDesEncrypt([]byte(orig))
 	encStr := base64.StdEncoding.EncodeToString(s)
 	fmt.Println(encStr)

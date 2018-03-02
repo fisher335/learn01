@@ -10,6 +10,7 @@ import (
 	"time"
 	"github.com/levigross/grequests"
 	"encoding/base64"
+	"encoding/json"
 )
 
 var wg sync.WaitGroup
@@ -48,20 +49,23 @@ func GetAddr() {
 	fmt.Printf("下载任务完成，耗时:%#v\n", time.Now().Sub(now))
 }
 
-func GetToken() {
+func GetToken() string {
 	username := "fengshaomin"
 	pass := "1"
 	url := "http://disk.bjsasc.com:8180/NetDisk/rest/mobile"
 	//url := "http://127.0.0.1:8080/list"
-	paras := &grequests.RequestOptions{Params: map[string]string{"loginName": username, "password": GetPass(pass), "method": "login"}}
-
-	s := grequests.NewSession(nil)
-	res, err := s.Get(url, paras)
+	paras := &grequests.RequestOptions{Params: map[string]string{"userName": username, "passWord": GetPass(pass), "method": "login"}}
+	res, err := grequests.Get(url, paras)
 	if err!=nil{
 		fmt.Println(err)
 	}
-	fmt.Println(s.RequestOptions.Context)
+	var token Token
+
 	fmt.Println(res)
+	json.Unmarshal(res.Bytes(),&token)
+
+	fmt.Println(token.Token)
+	return token.Token
 }
 
 func GetPass(orig string) string {
@@ -69,4 +73,9 @@ func GetPass(orig string) string {
 	encStr := base64.StdEncoding.EncodeToString(s)
 	fmt.Println(encStr)
 	return encStr
+}
+
+type Token struct {
+
+	Token string `json:"token"`
 }

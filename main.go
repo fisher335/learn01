@@ -9,6 +9,8 @@ import (
 
 func main() {
 
-	var s, _ = base64.StdEncoding.DecodeString("a2V5b25lOTUyNw==")
-	fmt.Println(string(s))
+	//var s, _ = base64.StdEncoding.DecodeString("a2V5b25lOTUyNw==")
+
+	var a = base64.StdEncoding.EncodeToString([]byte("15110202919"))
+	fmt.Println(string(a))
 }

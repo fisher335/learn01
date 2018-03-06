@@ -1,12 +1,12 @@
 package main
 
 import (
-	"crypto/des"
-	"crypto/cipher"
 	"bytes"
+	"crypto/cipher"
+	"crypto/des"
 )
 
-// 3DES加密
+// TripleDesEncrypt 3DS???
 func TripleDesEncrypt(origData []byte) ([]byte, error) {
 	key := []byte("sr$*)(ruan$@lx100$#365#$")
 	block, err := des.NewTripleDESCipher(key)
@@ -20,6 +20,8 @@ func TripleDesEncrypt(origData []byte) ([]byte, error) {
 	blockMode.CryptBlocks(crypted, origData)
 	return crypted, nil
 }
+
+//PKCS5Padding ??
 func PKCS5Padding(ciphertext []byte, blockSize int) []byte {
 	padding := blockSize - len(ciphertext)%blockSize
 	padtext := bytes.Repeat([]byte{byte(padding)}, padding)

@@ -1,30 +1,33 @@
 package main
 
 import (
-	"github.com/levigross/grequests"
-	"fmt"
-	"encoding/json"
 	"encoding/base64"
-	"time"
-	"github.com/PuerkitoBio/goquery"
+	"encoding/json"
+	"fmt"
 	"os"
 	"sync"
+	"time"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/levigross/grequests"
 )
 
 var wg sync.WaitGroup
+
+//GetAddr 获取下载地址
 func GetAddr() {
 
 	now := time.Now()
-	initalUrls := []string{"http://disk.bjsasc.com:8180/NetDisk/",}
+	initalUrls := []string{"http://disk.bjsasc.com:8180/NetDisk/"}
 	for _, url := range initalUrls {
 		doc, err := goquery.NewDocument(url)
 		if err != nil {
-			fmt.Errorf("下载错误:%#v", err)
+			fmt.Println(err)
 			os.Exit(-1)
 		}
 		doc.Find(".loginLogo").Each(func(i int, s *goquery.Selection) {
 			src, exists := s.Find("img").Attr("src")
-			if (exists) {
+			if exists {
 				wg.Add(1)
 				go func() {
 					defer wg.Done()
@@ -41,6 +44,7 @@ func GetAddr() {
 	fmt.Printf("下载任务完成，耗时:%#v\n", time.Now().Sub(now))
 }
 
+//GetToken get the token
 func GetToken() string {
 	username := "fengshaomin"
 	pass := "1"
@@ -60,6 +64,7 @@ func GetToken() string {
 	return token.Token
 }
 
+//EncryptPass enctypt the password
 func EncryptPass(orig string) string {
 	s, _ := TripleDesEncrypt([]byte(orig))
 	encStr := base64.StdEncoding.EncodeToString(s)
@@ -67,6 +72,7 @@ func EncryptPass(orig string) string {
 	return encStr
 }
 
+//Token token
 type Token struct {
 	Token string `json:"token"`
 }

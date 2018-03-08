@@ -60,7 +60,7 @@ func GetToken() string {
 	fmt.Println(res)
 	json.Unmarshal(res.Bytes(), &token)
 
-	fmt.Println(token.Token)
+	// fmt.Println(token.Token)
 	return token.Token
 }
 

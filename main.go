@@ -13,4 +13,5 @@ func main() {
 		defer a.Close()
 		var v,_ = ioutil.ReadAll(a)
 		println(string(v))
+
 	}
